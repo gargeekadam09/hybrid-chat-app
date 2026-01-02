@@ -3,7 +3,7 @@ import { tokenManager } from "./tokenManager";
 
 function App() {
   const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
-  const WS_URL = process.env.REACT_APP_WS_URL || 'ws://localhost:5000';
+  const WS_URL = API_URL.replace('https://', 'wss://').replace('http://', 'ws://');
   
   const [notifications, setNotifications] = useState([]);
   const [messages, setMessages] = useState([]);
@@ -211,7 +211,6 @@ function App() {
     };
 
     // WebSocket connection for chat
-    const WS_URL = process.env.REACT_APP_API_URL ? process.env.REACT_APP_API_URL.replace('https://', 'wss://').replace('http://', 'ws://') : 'ws://localhost:5000';
     const socket = new WebSocket(`${WS_URL}?user=${username}`);
     socketRef.current = socket;
 
