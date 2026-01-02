@@ -9,9 +9,12 @@ const { hashPassword, comparePassword, generateToken, verifyToken } = require('.
 const app = express();
 
 // Serve static files from React build
+// Note: Commented out for backend-only deployment
+/*
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/hybrid-client/build')));
 }
+*/
 
 // Test database connection
 db.query('SELECT 1')
@@ -340,11 +343,15 @@ app.get("/events", (req, res) => {
 });
 
 // Serve React app for all other routes in production
+// Note: Commented out as this is causing issues with Express 5.x
+// The frontend will be deployed separately or served differently
+/*
 if (process.env.NODE_ENV === 'production') {
   app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/hybrid-client/build/index.html'));
   });
 }
+*/
 
 /* =======================
    HTTP SERVER
