@@ -115,7 +115,8 @@ function App() {
   const loadAllUsers = async () => {
     try {
       const token = tokenManager.getToken();
-      const response = await fetch('http://localhost:5000/users/status', {
+      const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      const response = await fetch(`${API_URL}/users/status`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -136,7 +137,8 @@ function App() {
   // Load general chat history
   const loadGeneralChatHistory = async () => {
     try {
-      const response = await fetch('http://localhost:5000/messages/general');
+      const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      const response = await fetch(`${API_URL}/messages/general`);
       if (response.ok) {
         const history = await response.json();
         const formattedMessages = history.map(msg => ({
@@ -156,7 +158,8 @@ function App() {
   const loadPrivateChatHistory = async (targetUsername) => {
     try {
       const token = tokenManager.getToken();
-      const response = await fetch(`http://localhost:5000/messages/private/${targetUsername}`, {
+      const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      const response = await fetch(`${API_URL}/messages/private/${targetUsername}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -186,7 +189,8 @@ function App() {
     console.log('Attempting to connect for user:', username);
 
     // SSE connection for notifications
-    const eventSource = new EventSource(`http://localhost:5000/events?user=${username}`);
+    const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+    const eventSource = new EventSource(`${API_URL}/events?user=${username}`);
 
     eventSource.onopen = () => {
       console.log('SSE connection opened');
@@ -207,7 +211,8 @@ function App() {
     };
 
     // WebSocket connection for chat
-    const socket = new WebSocket(`ws://localhost:5000?user=${username}`);
+    const WS_URL = process.env.REACT_APP_API_URL ? process.env.REACT_APP_API_URL.replace('https://', 'wss://').replace('http://', 'ws://') : 'ws://localhost:5000';
+    const socket = new WebSocket(`${WS_URL}?user=${username}`);
     socketRef.current = socket;
 
     socket.onopen = () => {
@@ -398,7 +403,8 @@ function App() {
     }
     
     try {
-      const response = await fetch('http://localhost:5000/register', {
+      const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      const response = await fetch(`${API_URL}/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -436,7 +442,8 @@ function App() {
     }
     
     try {
-      const response = await fetch('http://localhost:5000/login', {
+      const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      const response = await fetch(`${API_URL}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
