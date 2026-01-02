@@ -23,7 +23,12 @@ db.query('SELECT 1')
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001'],
+  origin: [
+    'http://localhost:3000', 
+    'http://localhost:3001',
+    'https://hybrid-chat-8m0wmtglc-gargee-kadams-projects.vercel.app',
+    'https://hybrid-chat-app.vercel.app'
+  ],
   credentials: true
 }));
 app.use(express.json());
